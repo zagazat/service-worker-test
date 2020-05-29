@@ -20,7 +20,7 @@
         "add-custom-sw": "cat src/serviceWorker/custom-sw.js >> build/service-worker.js",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "serve": "yarn build && serve -s /build --open http://localhost:5000"
+        "serve": "yarn build && serve -s /build"
     },
     "eslintConfig": {
         "extends": "react-app"
