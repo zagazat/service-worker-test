@@ -8,7 +8,19 @@ database.version(1).stores({
     messages: 'id, text',
 });
 
-function addResponse(responseData, status = 200) {
+/**
+ * Эмулируем долгий ответ
+ * @param ms
+ * @returns {Promise<unknown>}
+ */
+function mockDelay(ms) {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(), ms);
+    });
+}
+
+async function addResponse(responseData, status = 200) {
+    await mockDelay(2000);
     return new Response(JSON.stringify(responseData), {
         headers: {
             'Content-Type': 'application/json',

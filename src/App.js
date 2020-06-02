@@ -1,12 +1,14 @@
 import React from 'react';
 
 class App extends React.Component {
-    async onSubmitHandler(elem) {
-        elem.preventDefault();
-        const input = document.getElementById('message');
+    async onClickHandler(event) {
+        event.persist();
+        const button = event.nativeEvent.target;
+
         const userData = {
-            message: input.value,
+            message: button.innerText,
         };
+
         const response = await fetch('/post', {
             method: 'POST',
             headers: {
@@ -14,6 +16,8 @@ class App extends React.Component {
             },
             body: JSON.stringify(userData),
         });
+
+        button.setAttribute('Disabled', true); // loading = true;
         response
             .json()
             .then((res) => {
@@ -22,14 +26,29 @@ class App extends React.Component {
                 }
                 return alert(`ID: ${res.id}\nMessage: ${res.text}`);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.error(error))
+            .finally(() => button.removeAttribute('Disabled')); // loading = false;
     }
+
     render() {
         return (
-            <form action='' id='form' onSubmit={this.onSubmitHandler}>
-                <input type='text' id='message' />
-                <button type='submit'>Send Message</button>
-            </form>
+            <>
+                <div className='submitAndLog'>
+                    <button type='button' onClick={this.onClickHandler}>
+                        Ready!
+                    </button>
+                </div>
+                <div className='submitAndLog'>
+                    <button type='button' onClick={this.onClickHandler}>
+                        Steady!
+                    </button>
+                </div>
+                <div className='submitAndLog'>
+                    <button type='button' onClick={this.onClickHandler}>
+                        Go!
+                    </button>
+                </div>
+            </>
         );
     }
 }
